@@ -49,6 +49,12 @@ AS $$
     ON r.media_id = m.id AND r.requester_id = auth.uid()
   WHERE auth.uid() IS NOT NULL
     AND lower(p.username) = lower(trim(p_username))
+    AND p.birth_date <= current_date - interval '18 years'
+    AND EXISTS (
+      SELECT 1 FROM public.profiles me
+      WHERE me.id = auth.uid()
+        AND me.birth_date <= current_date - interval '18 years'
+    )
     AND m.owner_id <> auth.uid()
     AND m.context = 'profile'
     AND m.media_type = 'image'
@@ -69,6 +75,14 @@ DECLARE
 BEGIN
   IF auth.uid() IS NULL THEN
     RAISE EXCEPTION 'Connexion requise';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM public.profiles me
+    WHERE me.id = auth.uid()
+      AND me.birth_date <= current_date - interval '18 years'
+  ) THEN
+    RAISE EXCEPTION 'Profil adulte vérifié requis';
   END IF;
 
   SELECT owner_id INTO v_owner
