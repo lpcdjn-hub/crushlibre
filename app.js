@@ -8,7 +8,7 @@ async function loadMyPhotos(){
   const{data:{user}}=await sb.auth.getUser();
   if(!user)return;
   const{data:rows,error}=await sb.from('media')
-    .select('id,storage_path,caption,created_at,moderation_status')
+    .select('id,storage_path,caption,created_at,moderation_status,visibility')
     .eq('owner_id',user.id).eq('context','profile').is('deleted_at',null)
     .order('created_at',{ascending:false});
   if(error){$('media-status').textContent='Impossible de charger les photos : '+error.message;return;}
@@ -21,7 +21,7 @@ async function loadMyPhotos(){
     const meta=document.createElement('p');meta.textContent='Modération : '+row.moderation_status;
     const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Supprimer';
     del.onclick=()=>deleteMyPhoto(row.id,row.storage_path,del);
-    card.append(img,meta,del);gallery.append(card);
+    const share=document.createElement('button');share.type='button';share.className='secondary';share.textContent=row.visibility==='selected_people'?'Retirer du partage':'Autoriser les demandes';share.disabled=row.moderation_status!=='approved';share.onclick=async()=>{const v=row.visibility==='selected_people'?'private':'selected_people';if(v==='selected_people'&&!confirm('Autoriser les demandes d’accès à cette photo ?'))return;const{error}=await sb.from('media').update({visibility:v}).eq('id',row.id);if(error){$('media-status').textContent=error.message;return;}await loadMyPhotos();};card.append(img,meta,share,del);gallery.append(card);
   }
 }
 async function deleteMyPhoto(id,path,button){
