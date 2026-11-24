@@ -7,3 +7,10 @@
 .photo-card button{width:100%;padding:9px;font-size:.85rem}
 #media-status{font-size:.9rem;margin-top:10px;color:#675674}
 #photo-files{margin:8px 0 14px}
+
+.sharing-panel{border-top:1px solid #eadcf4;margin-top:22px;padding-top:16px}
+.sharing-panel h4{margin:18px 0 8px}
+.share-results{display:grid;gap:10px;margin-top:12px}
+.share-card{border:1px solid #eadcf4;border-radius:12px;padding:12px;background:#fbf8fd;overflow-wrap:anywhere}
+.share-card img{display:block;width:100%;max-width:240px;aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:10px 0}
+.share-card button{margin:6px 6px 0 0}
