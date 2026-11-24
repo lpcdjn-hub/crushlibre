@@ -188,8 +188,10 @@ AS $$
       AND m.visibility = 'selected_people'
       AND m.moderation_status = 'approved'
       AND m.deleted_at IS NULL
+      AND EXISTS (SELECT 1 FROM public.profiles requester WHERE requester.id = r.requester_id AND requester.birth_date <= current_date - interval '18 years')
+      AND EXISTS (SELECT 1 FROM public.profiles owner_profile WHERE owner_profile.id = r.owner_id AND owner_profile.birth_date <= current_date - interval '18 years')
   );
-$$;
+$;
 
 REVOKE ALL ON FUNCTION public.can_read_shared_media(text) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.can_read_shared_media(text) TO authenticated;
