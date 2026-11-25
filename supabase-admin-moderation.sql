@@ -12,7 +12,7 @@ REVOKE ALL ON public.crushlibre_super_admins FROM PUBLIC, anon, authenticated;
 -- IMPORTANT : remplacer l'adresse d'exemple par l'adresse du compte Supabase du Super-Admin.
 INSERT INTO public.crushlibre_super_admins(user_id)
 SELECT id FROM auth.users
-WHERE lower(email) = lower('REMPLACER_PAR_EMAIL_SUPABASE_DU_SUPER_ADMIN')
+WHERE lower(email) = lower('lp.cdjn@gmail.com')
 ON CONFLICT (user_id) DO NOTHING;
 
 CREATE OR REPLACE FUNCTION public.is_crushlibre_super_admin()
