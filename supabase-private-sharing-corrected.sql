@@ -98,6 +98,15 @@ BEGIN
     RAISE EXCEPTION 'Cette photo ne peut pas faire l’objet d’une demande';
   END IF;
 
+  -- Le propriétaire doit lui aussi disposer d'un profil adulte vérifié.
+  IF NOT EXISTS (
+    SELECT 1 FROM public.profiles owner_profile
+    WHERE owner_profile.id = v_owner
+      AND owner_profile.birth_date <= current_date - interval '18 years'
+  ) THEN
+    RAISE EXCEPTION 'Le partage est réservé aux profils adultes vérifiés';
+  END IF;
+
   INSERT INTO public.media_share_requests(media_id, owner_id, requester_id)
   VALUES (p_media_id, v_owner, auth.uid())
   ON CONFLICT (media_id, requester_id)
