@@ -14,8 +14,15 @@ CREATE OR REPLACE FUNCTION public.chat_start_conversation(p_username text) RETUR
 DECLARE v_other uuid; v_id uuid;
 BEGIN
  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'Connexion requise'; END IF;
- SELECT id INTO v_other FROM public.profiles WHERE lower(username)=lower(trim(p_username)) AND id<>auth.uid() LIMIT 1;
- IF v_other IS NULL THEN RAISE EXCEPTION 'Membre introuvable'; END IF;
+ IF NOT EXISTS(SELECT 1 FROM public.profiles WHERE id=auth.uid() AND birth_date <= current_date - interval '18 years') THEN
+  RAISE EXCEPTION 'Profil adulte vérifié requis';
+ END IF;
+ SELECT id INTO v_other FROM public.profiles
+ WHERE lower(username)=lower(trim(p_username))
+   AND id<>auth.uid()
+   AND birth_date <= current_date - interval '18 years'
+ LIMIT 1;
+ IF v_other IS NULL THEN RAISE EXCEPTION 'Membre introuvable ou profil adulte non vérifié'; END IF;
  SELECT c.id INTO v_id FROM public.chat_conversations c
  JOIN public.chat_participants a ON a.conversation_id=c.id AND a.user_id=auth.uid()
  JOIN public.chat_participants b ON b.conversation_id=c.id AND b.user_id=v_other
