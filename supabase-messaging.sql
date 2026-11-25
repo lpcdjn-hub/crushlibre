@@ -44,7 +44,7 @@ LANGUAGE sql SECURITY DEFINER SET search_path=public AS $$
  JOIN public.chat_participants me ON me.conversation_id=c.id AND me.user_id=auth.uid()
  JOIN public.chat_participants o ON o.conversation_id=c.id AND o.user_id<>auth.uid()
  JOIN public.profiles p ON p.id=o.user_id
- ORDER BY last_message_at DESC NULLS LAST;
+ ORDER BY 5 DESC NULLS LAST;
 $$;
 CREATE OR REPLACE FUNCTION public.chat_list_messages(p_conversation_id uuid)
 RETURNS TABLE(message_id uuid,sender_id uuid,sender_username text,body text,created_at timestamptz)
