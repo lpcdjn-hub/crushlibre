@@ -107,3 +107,36 @@ async function shareRequests(){
 }
 $('share-search')?.addEventListener('click',shareSearch);
 $('refresh-share-requests')?.addEventListener('click',shareRequests);
+
+
+// Modération réservée au Super-Admin (autorisation vérifiée côté base de données).
+async function loadModerationQueue(){
+  const panel=$('admin-moderation'),queue=$('moderation-queue'),label=$('moderation-status');
+  if(!panel||!queue||!label)return;
+  const{data:admin,error:adminError}=await sb.rpc('is_crushlibre_super_admin');
+  if(adminError||admin!==true){panel.classList.add('hidden');return;}
+  panel.classList.remove('hidden');queue.replaceChildren();label.textContent='Chargement…';
+  const{data,error}=await sb.rpc('list_pending_profile_media');
+  if(error){label.textContent='Erreur de modération : '+error.message;return;}
+  label.textContent=(data?.length||0)+' photo(s) en attente.';
+  if(!data?.length){queue.textContent='Aucune photo à modérer.';return;}
+  for(const item of data){
+    const card=document.createElement('article');card.className='photo-card';
+    const{data:signed,error:signError}=await sb.storage.from(MEDIA_BUCKET).createSignedUrl(item.storage_path,180);
+    if(!signError){const img=document.createElement('img');img.src=signed.signedUrl;img.alt='Photo à modérer';img.loading='lazy';card.append(img);}
+    const info=document.createElement('p');info.textContent='Membre : '+item.owner_username;card.append(info);
+    const approve=document.createElement('button');approve.type='button';approve.textContent='Approuver';
+    approve.onclick=()=>moderatePhoto(item.media_id,true,approve);
+    const reject=document.createElement('button');reject.type='button';reject.className='secondary';reject.textContent='Refuser';
+    reject.onclick=()=>moderatePhoto(item.media_id,false,reject);
+    card.append(approve,reject);queue.append(card);
+  }
+}
+async function moderatePhoto(id,approve,button){
+  button.disabled=true;
+  const{error}=await sb.rpc('moderate_profile_media',{p_media_id:id,p_approve:approve});
+  if(error){$('moderation-status').textContent='Action refusée : '+error.message;button.disabled=false;return;}
+  $('moderation-status').textContent=approve?'Photo approuvée. Elle reste privée jusqu’au consentement du propriétaire.':'Photo refusée.';
+  await loadModerationQueue();
+}
+$('refresh-moderation')?.addEventListener('click',loadModerationQueue);
