@@ -14,3 +14,11 @@
 .share-card{border:1px solid #eadcf4;border-radius:12px;padding:12px;background:#fbf8fd;overflow-wrap:anywhere}
 .share-card img{display:block;width:100%;max-width:240px;aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:10px 0}
 .share-card button{margin:6px 6px 0 0}
+
+.brand-logo{width:42px;height:42px;object-fit:contain;vertical-align:middle;border-radius:12px}
+.project-links{margin-top:24px}
+.project-links .cross-promo{margin:14px 0}
+.cross-promo{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid #eadcf4;border-radius:14px;background:#fbf8fd;flex-wrap:wrap}
+.cross-promo-icon{width:54px;height:54px;flex:none;object-fit:contain;border-radius:12px;background:#fff;padding:3px}
+.cross-promo-text{flex:1;min-width:160px}.cross-promo-text h2{margin:2px 0 5px;font-size:1rem}.cross-promo-text p{margin:0;font-size:.85rem;color:#756481}
+.cross-promo-actions{display:flex;gap:7px;flex-wrap:wrap}.cross-promo-actions a,.cross-promo-actions button{font-size:.8rem;padding:9px 11px;text-decoration:none}
