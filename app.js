@@ -1,4 +1,4 @@
-const SUPABASE_URL='https://rlzunpnwtnkxmnygnkvv.supabase.co';const SUPABASE_KEY='sb_publishable_3eXxDChcMApOgp6TmKQ0QA_1z2VKhOE';const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const $=id=>document.getElementById(id);const status=(m,ok=false)=>{$('status').textContent=m;$('status').className=ok?'success':'error';};function isAdult(dateString){if(!dateString)return false;const d=new Date(dateString+'T00:00:00');if(Number.isNaN(d.getTime()))return false;const today=new Date();let age=today.getFullYear()-d.getFullYear();const beforeBirthday=today.getMonth()<d.getMonth()||(today.getMonth()===d.getMonth()&&today.getDate()<d.getDate());if(beforeBirthday)age--;return age>=18&&d<=today;}function showSession(s){$('auth').classList.toggle('hidden',!!s);$('dashboard').classList.toggle('hidden',!s);if(s){$('userline').textContent=s.user.email;loadProfile(s.user.id);loadMyPhotos();shareRequests();loadModerationQueue();loadAdminMembers();loadAdminReports();loadChatConversations();}}async function loadProfile(id){const{data,error}=await sb.from('profiles').select('username,bio,birth_date').eq('id',id).maybeSingle();if(error){status('Connecté. Profil à initialiser : '+error.message);return;}if(data){$('username').value=data.username||'';$('bio').value=data.bio||'';$('birthdate').value=data.birth_date||'';}}$('signup').onclick=async()=>{if(!$('adult').checked){status('Confirmation 18+ obligatoire.');return;}const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<8){status('Email et mot de passe de 8 caractères minimum requis.');return;}const{data,error}=await sb.auth.signUp({email,password,options:{data:{adult_confirmed:true}}});if(error){status(error.message);return;}status(data.session?'Compte créé et connecté.':'Compte créé. Vérifie ton email.',true);if(data.session)showSession(data.session);};$('login').onclick=async()=>{const{data,error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){status(error.message);return;}status('Connexion réussie.',true);showSession(data.session);};$('forgot').onclick=async()=>{const email=$('email').value.trim();if(!email){status('Entre ton email dans le champ Email.');return;}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});if(error){status(error.message);return;}status('Demande envoyée. Vérifie ta boîte email et tes spams.',true);};$('resetpassword').onclick=async()=>{const p=$('newpassword').value,c=$('confirmpassword').value;if(p.length<8){status('8 caractères minimum.');return;}if(p!==c){status('Les mots de passe ne correspondent pas.');return;}const{error}=await sb.auth.updateUser({password:p});if(error){status(error.message);return;}$('reset-card').classList.add('hidden');status('Mot de passe changé. Connecte-toi.',true);await sb.auth.signOut();showSession(null);};$('logout').onclick=async()=>{await sb.auth.signOut();showSession(null);status('Déconnexion effectuée.',true);};$('saveprofile').onclick=async()=>{const{data:{user}}=await sb.auth.getUser();if(!user){status('Reconnecte-toi.');return;}const birthDate=$('birthdate').value;if(!birthDate){status('Indique ta date de naissance pour enregistrer ton profil.');return;}if(!isAdult(birthDate)){status('CrushLibre est réservé aux personnes de 18 ans et plus.');return;}const{error}=await sb.from('profiles').upsert({id:user.id,username:$('username').value.trim(),bio:$('bio').value.trim(),birth_date:birthDate});if(error)status('Erreur profil : '+error.message);else status('Profil enregistré.',true);};sb.auth.getSession().then(({data})=>showSession(data.session));sb.auth.onAuthStateChange((event,session)=>{showSession(session);if(event==='PASSWORD_RECOVERY'){$('reset-card').classList.remove('hidden');$('auth').classList.add('hidden');status('Choisis ton nouveau mot de passe.',true);}});
+const SUPABASE_URL='https://rlzunpnwtnkxmnygnkvv.supabase.co';const SUPABASE_KEY='sb_publishable_3eXxDChcMApOgp6TmKQ0QA_1z2VKhOE';const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const $=id=>document.getElementById(id);const status=(m,ok=false)=>{$('status').textContent=m;$('status').className=ok?'success':'error';};function isAdult(dateString){if(!dateString)return false;const d=new Date(dateString+'T00:00:00');if(Number.isNaN(d.getTime()))return false;const today=new Date();let age=today.getFullYear()-d.getFullYear();const beforeBirthday=today.getMonth()<d.getMonth()||(today.getMonth()===d.getMonth()&&today.getDate()<d.getDate());if(beforeBirthday)age--;return age>=18&&d<=today;}function showSession(s){$('auth').classList.toggle('hidden',!!s);$('dashboard').classList.toggle('hidden',!s);if(s){$('userline').textContent=s.user.email;loadProfile(s.user.id);loadMyPhotos();shareRequests();loadModerationQueue();loadAdminMembers();loadAdminReports();loadChatConversations();loadMemberMap();}}async function loadProfile(id){const{data,error}=await sb.from('profiles').select('username,bio,birth_date').eq('id',id).maybeSingle();if(error){status('Connecté. Profil à initialiser : '+error.message);return;}if(data){$('username').value=data.username||'';$('bio').value=data.bio||'';$('birthdate').value=data.birth_date||'';}}$('signup').onclick=async()=>{if(!$('adult').checked){status('Confirmation 18+ obligatoire.');return;}const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<8){status('Email et mot de passe de 8 caractères minimum requis.');return;}const{data,error}=await sb.auth.signUp({email,password,options:{data:{adult_confirmed:true}}});if(error){status(error.message);return;}status(data.session?'Compte créé et connecté.':'Compte créé. Vérifie ton email.',true);if(data.session)showSession(data.session);};$('login').onclick=async()=>{const{data,error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){status(error.message);return;}status('Connexion réussie.',true);showSession(data.session);};$('forgot').onclick=async()=>{const email=$('email').value.trim();if(!email){status('Entre ton email dans le champ Email.');return;}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});if(error){status(error.message);return;}status('Demande envoyée. Vérifie ta boîte email et tes spams.',true);};$('resetpassword').onclick=async()=>{const p=$('newpassword').value,c=$('confirmpassword').value;if(p.length<8){status('8 caractères minimum.');return;}if(p!==c){status('Les mots de passe ne correspondent pas.');return;}const{error}=await sb.auth.updateUser({password:p});if(error){status(error.message);return;}$('reset-card').classList.add('hidden');status('Mot de passe changé. Connecte-toi.',true);await sb.auth.signOut();showSession(null);};$('logout').onclick=async()=>{await sb.auth.signOut();showSession(null);status('Déconnexion effectuée.',true);};$('saveprofile').onclick=async()=>{const{data:{user}}=await sb.auth.getUser();if(!user){status('Reconnecte-toi.');return;}const birthDate=$('birthdate').value;if(!birthDate){status('Indique ta date de naissance pour enregistrer ton profil.');return;}if(!isAdult(birthDate)){status('CrushLibre est réservé aux personnes de 18 ans et plus.');return;}const{error}=await sb.from('profiles').upsert({id:user.id,username:$('username').value.trim(),bio:$('bio').value.trim(),birth_date:birthDate});if(error)status('Erreur profil : '+error.message);else status('Profil enregistré.',true);};sb.auth.getSession().then(({data})=>showSession(data.session));sb.auth.onAuthStateChange((event,session)=>{showSession(session);if(event==='PASSWORD_RECOVERY'){$('reset-card').classList.remove('hidden');$('auth').classList.add('hidden');status('Choisis ton nouveau mot de passe.',true);}});
 const MEDIA_BUCKET='crushlib-private-media';
 const MAX_PHOTO_BYTES=50*1024*1024;
 async function loadMyPhotos(){
@@ -192,3 +192,69 @@ $('chat-start')?.addEventListener('click',async()=>{const username=$('chat-usern
 $('chat-send')?.addEventListener('click',async()=>{const body=$('chat-message').value.trim();if(!activeChatConversation||!body)return;const{error}=await sb.rpc('chat_send_message',{p_conversation_id:activeChatConversation,p_body:body});if(error){$('chat-status').textContent=error.message;return;}$('chat-message').value='';await loadChatConversations();const name=$('chat-thread').querySelector('h4')?.textContent.replace('Conversation avec ','')||'Membre';await openChat(activeChatConversation,name);});
 async function loadAdminReports(){const panel=$('admin-reports'),box=$('reports-list'),label=$('reports-status');if(!panel||!box||!label)return;const{data:admin,error:ae}=await sb.rpc('is_crushlibre_super_admin');if(ae||admin!==true){panel.classList.add('hidden');return;}panel.classList.remove('hidden');box.replaceChildren();const{data,error}=await sb.rpc('admin_list_reported_messages');if(error){label.textContent=error.message;return;}label.textContent=(data?.length||0)+' signalement(s) en attente.';if(!data?.length){box.textContent='Aucun message signalé.';return;}for(const r of data){const card=document.createElement('article');card.className='share-card';const p=document.createElement('p');p.textContent='Expéditeur : '+(r.sender_email||'inconnu')+' · Signalé par : '+(r.reporter_email||'inconnu')+'\nMotif : '+r.reason+'\nMessage : '+r.message_body;card.append(p);for(const dismiss of [false,true]){const b=document.createElement('button');b.type='button';b.className=dismiss?'secondary':'';b.textContent=dismiss?'Classer sans suite':'Traiter le signalement';b.onclick=async()=>{const{error:e}=await sb.rpc('admin_resolve_message_report',{p_report_id:r.report_id,p_dismiss:dismiss});if(e){label.textContent=e.message;return;}await loadAdminReports();};card.append(b);}box.append(card);}}
 $('refresh-reports')?.addEventListener('click',loadAdminReports);
+
+let memberMap=null;
+let memberMapLayer=null;
+function ensureMemberMap(){
+ const el=$('member-map-view');if(!el||!window.L)return null;
+ if(!memberMap){
+  memberMap=L.map(el).setView([46.5,2.5],5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(memberMap);
+  memberMapLayer=L.layerGroup().addTo(memberMap);
+ }
+ return memberMap;
+}
+async function loadMemberMap(){
+ const map=ensureMemberMap();if(!map)return;
+ const{data:{user}}=await sb.auth.getUser();if(!user)return;
+ const{data:own,error:ownError}=await sb.from('member_locations').select('sharing_scope,updated_at,expires_at').eq('user_id',user.id).maybeSingle();
+ if(ownError){$('map-status').textContent='Carte indisponible : '+ownError.message;return;}
+ if(own&&new Date(own.expires_at)>new Date()){
+  $('map-scope').value=own.sharing_scope;
+  $('map-status').textContent='Ta position est partagée jusqu’à '+new Date(own.expires_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'.';
+ }else{$('map-status').textContent='Ta position n’est pas partagée.';}
+ await refreshMemberMap();
+}
+async function refreshMemberMap(){
+ const map=ensureMemberMap();if(!map)return;
+ memberMapLayer.clearLayers();
+ const{data,error}=await sb.rpc('map_visible_members');
+ if(error){$('map-status').textContent='Impossible de charger la carte : '+error.message;return;}
+ const bounds=[];
+ for(const person of data||[]){
+  const marker=L.marker([person.latitude,person.longitude]).bindPopup(document.createTextNode?person.username||'Membre':'Membre');
+  marker.addTo(memberMapLayer);bounds.push([person.latitude,person.longitude]);
+ }
+ if(bounds.length){map.fitBounds(bounds,{padding:[28,28],maxZoom:12});}
+ else{map.setView([46.5,2.5],5);}
+ const{data:{user}}=await sb.auth.getUser();
+ $('map-status').textContent=(data?.length||0)+' membre(s) visible(s) sur la carte. Ta position reste privée si tu ne l’actives pas.';
+}
+$('map-share')?.addEventListener('click',async()=>{
+ const{data:{user}}=await sb.auth.getUser();
+ if(!user){$('map-status').textContent='Reconnecte-toi.';return;}
+ if(!navigator.geolocation){$('map-status').textContent='La géolocalisation n’est pas disponible sur cet appareil.';return;}
+ const button=$('map-share');button.disabled=true;$('map-status').textContent='Récupération de ta position…';
+ navigator.geolocation.getCurrentPosition(async pos=>{
+  const now=new Date().toISOString(),expiry=new Date(Date.now()+15*60*1000).toISOString();
+  const{error}=await sb.from('member_locations').upsert({
+   user_id:user.id,latitude:pos.coords.latitude,longitude:pos.coords.longitude,
+   sharing_scope:$('map-scope').value,updated_at:now,expires_at:expiry
+  },{onConflict:'user_id'});
+  button.disabled=false;
+  if(error){$('map-status').textContent='Impossible de partager : '+error.message;return;}
+  $('map-status').textContent='Position partagée pendant 15 minutes. Tu peux arrêter à tout moment.';
+  await refreshMemberMap();
+ },err=>{
+  button.disabled=false;
+  $('map-status').textContent=err.code===1?'Autorise la géolocalisation dans les réglages de ton téléphone si tu veux partager ta position.':'Position indisponible. Réessaie quand le GPS est activé.';
+ },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+});
+$('map-stop')?.addEventListener('click',async()=>{
+ const{data:{user}}=await sb.auth.getUser();if(!user)return;
+ const{error}=await sb.from('member_locations').delete().eq('user_id',user.id);
+ if(error){$('map-status').textContent='Impossible d’arrêter le partage : '+error.message;return;}
+ $('map-status').textContent='Partage arrêté. Ta position ne figure plus sur la carte.';
+ await refreshMemberMap();
+});
+$('map-refresh')?.addEventListener('click',refreshMemberMap);
