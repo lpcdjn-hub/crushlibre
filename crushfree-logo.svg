@@ -1,10 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#32104c"/><stop offset="1" stop-color="#8d2bb7"/></linearGradient><linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff9bd8"/><stop offset="1" stop-color="#f00091"/></linearGradient></defs>
-<rect width="512" height="512" rx="104" fill="url(#bg)"/>
-<path d="M256 382C220 346 111 273 111 186c0-53 40-91 91-91 28 0 48 13 54 34 8-21 29-34 56-34 51 0 89 38 89 91 0 87-109 160-145 196Z" fill="url(#pink)" stroke="#fff" stroke-width="12"/>
-<path d="M165 184q34-50 74-8M272 176q35-38 76 8" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
-<path d="M256 83c-12-27-48-23-47 4 1 17 20 29 47 49 27-20 46-32 47-49 1-27-35-31-47-4Z" fill="#ff4ab8" stroke="#fff" stroke-width="7"/>
-<text x="256" y="457" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="800" fill="#fff">CRUSHFREE</text>
-<!-- Petit cœur à la place du circonflexe sur le U -->
-<path d="M207 421 C197 412 187 405 188 397 C189 387 202 385 207 395 C212 385 225 387 226 397 C227 405 217 412 207 421Z" fill="#ff4ab8" stroke="#fff" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">CrûshFree</title><desc id="desc">Cupidon rose et violet avec arc et flèche terminée par un cœur, sur fond violet.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#25083f"/><stop offset=".55" stop-color="#64148d"/><stop offset="1" stop-color="#a12bb4"/></linearGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd1ef"/><stop offset="1" stop-color="#ff4db8"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="100" fill="url(#bg)"/>
+<circle cx="256" cy="211" r="151" fill="#ffffff" opacity=".06"/>
+<!-- ailes de Cupidon -->
+<path d="M225 181C174 108 104 129 111 191c5 43 48 69 98 52-42 9-64-18-59-43 5-24 34-28 75-1Z" fill="#ffd7f0" stroke="#fff" stroke-width="8" stroke-linejoin="round"/>
+<path d="M285 181c51-73 121-52 114 10-5 43-48 69-98 52 42 9 64-18 59-43-5-24-34-28-75-1Z" fill="#ffd7f0" stroke="#fff" stroke-width="8" stroke-linejoin="round"/>
+<!-- corps et tête -->
+<circle cx="256" cy="158" r="35" fill="url(#pink)" stroke="#fff" stroke-width="8"/>
+<path d="M226 198c-21 27-22 65-7 91l-25 34c-8 12 5 25 18 18l44-26 44 26c13 7 26-6 18-18l-25-34c15-26 14-64-7-91-18 17-42 17-60 0Z" fill="url(#pink)" stroke="#fff" stroke-width="8" stroke-linejoin="round"/>
+<!-- bras tenant l'arc -->
+<path d="M218 222 157 194M294 221l58-33" stroke="#ffd1ef" stroke-width="17" stroke-linecap="round"/>
+<!-- arc et corde -->
+<path d="M356 121Q443 213 356 305" fill="none" stroke="#ffd1ef" stroke-width="12" stroke-linecap="round"/>
+<path d="M356 121 356 305" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>
+<!-- flèche et cœur -->
+<path d="M151 193 376 213" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+<path d="m371 202 20 12-22 8" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M145 178c-12-13-32-3-28 13 3 12 17 20 29 29 12-9 26-17 29-29 4-16-16-26-30-13Z" fill="#ff4db8" stroke="#fff" stroke-width="6" filter="url(#glow)"/>
+<!-- petite flamme/cœur au-dessus du mot -->
+<path d="M256 355c-15-14-38-3-34 16 3 14 20 25 34 36 14-11 31-22 34-36 4-19-19-30-34-16Z" fill="#ff78ca" stroke="#fff" stroke-width="5"/>
+<text x="256" y="451" text-anchor="middle" font-family="Arial,sans-serif" font-size="54" font-weight="800" letter-spacing="-2" fill="#fff">CrûshFree</text>
+<!-- cœur à la place du circonflexe -->
+<path d="M151 397c-8-8-20-2-18 8 2 7 10 13 18 19 8-6 16-12 18-19 2-10-10-16-18-8Z" fill="#ff62c2" stroke="#fff" stroke-width="2.5"/>
 </svg>
