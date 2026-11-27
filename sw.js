@@ -1,5 +1,5 @@
-const CACHE_NAME='crushfree-shell-v3';
-const ASSETS=['./','./index.html','./style.css','./app.js','./manifest.json','./crushfree-logo.svg'];
+const CACHE_NAME='crushfree-shell-v4';
+const ASSETS=['./','./index.html','./style.css','./app.js','./manifest.json','./crushfree-icon.jpg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
