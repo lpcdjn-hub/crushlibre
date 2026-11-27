@@ -222,7 +222,7 @@ async function refreshMemberMap(){
  if(error){$('map-status').textContent='Impossible de charger la carte : '+error.message;return;}
  const bounds=[];
  for(const person of data||[]){
-  const marker=L.marker([person.latitude,person.longitude]).bindPopup(document.createTextNode?person.username||'Membre':'Membre');
+  const popup=document.createElement('span');popup.textContent=person.username||'Membre';const marker=L.marker([person.latitude,person.longitude]).bindPopup(popup);
   marker.addTo(memberMapLayer);bounds.push([person.latitude,person.longitude]);
  }
  if(bounds.length){map.fitBounds(bounds,{padding:[28,28],maxZoom:12});}
