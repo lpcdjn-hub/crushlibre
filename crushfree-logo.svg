@@ -4,5 +4,7 @@
 <path d="M256 382C220 346 111 273 111 186c0-53 40-91 91-91 28 0 48 13 54 34 8-21 29-34 56-34 51 0 89 38 89 91 0 87-109 160-145 196Z" fill="url(#pink)" stroke="#fff" stroke-width="12"/>
 <path d="M165 184q34-50 74-8M272 176q35-38 76 8" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
 <path d="M256 83c-12-27-48-23-47 4 1 17 20 29 47 49 27-20 46-32 47-49 1-27-35-31-47-4Z" fill="#ff4ab8" stroke="#fff" stroke-width="7"/>
-<text x="256" y="457" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="800" fill="#fff">CRÛSHFREE</text>
+<text x="256" y="457" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="800" fill="#fff">CRUSHFREE</text>
+<!-- Petit cœur à la place du circonflexe sur le U -->
+<path d="M207 421 C197 412 187 405 188 397 C189 387 202 385 207 395 C212 385 225 387 226 397 C227 405 217 412 207 421Z" fill="#ff4ab8" stroke="#fff" stroke-width="3"/>
 </svg>
