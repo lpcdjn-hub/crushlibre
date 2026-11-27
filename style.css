@@ -22,3 +22,5 @@
 .cross-promo-icon{width:54px;height:54px;flex:none;object-fit:contain;border-radius:12px;background:#fff;padding:3px}
 .cross-promo-text{flex:1;min-width:160px}.cross-promo-text h2{margin:2px 0 5px;font-size:1rem}.cross-promo-text p{margin:0;font-size:.85rem;color:#756481}
 .cross-promo-actions{display:flex;gap:7px;flex-wrap:wrap}.cross-promo-actions a,.cross-promo-actions button{font-size:.8rem;padding:9px 11px;text-decoration:none}
+
+.cross-promo-icon.official-banner{width:124px;height:70px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;padding:0;background:#111}
