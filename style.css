@@ -24,3 +24,8 @@
 .cross-promo-actions{display:flex;gap:7px;flex-wrap:wrap}.cross-promo-actions a,.cross-promo-actions button{font-size:.8rem;padding:9px 11px;text-decoration:none}
 
 .cross-promo-icon.official-banner{width:124px;height:70px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;padding:0;background:#111}
+
+#member-map-view{width:100%;min-height:300px;z-index:1}
+#member-map .actions{margin:12px 0}
+#member-map .actions button{flex:1;min-width:130px}
+.leaflet-popup-content{font-family:system-ui,sans-serif}
