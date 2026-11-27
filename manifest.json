@@ -1,22 +1,26 @@
 {
+  "id": "./",
   "name": "CrûshFree",
   "short_name": "CrûshFree",
+  "description": "Rencontres et amitié",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f8f5fc",
   "theme_color": "#32104c",
   "icons": [
     {
-      "src": "crushfree-logo.jpg?v=20261127-3",
+      "src": "crushfree-logo.svg?v=20261127-4",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "crushfree-logo.jpg?v=20261127-3",
+      "src": "crushfree-logo.svg?v=20261127-4",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
